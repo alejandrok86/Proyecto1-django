@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes</title>
+</head>
+
+<body>
+    <form action="{% url 'create_client' %}" method="POST">
+        {% csrf_token %}
+        <p>Crear Cliente</p>
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" required> <br>
+        <label for="">Dni:</label>
+        <input type="text" name="dni" required> <br>
+        <label for="">Domicilio:</label>
+        <input type="text" name="address" required> <br>
+        <label for="">e-mail:</label>
+        <input type="text" name="email" required> <br>
+        <label for="">celular:</label>
+        <input type="text" name="phone" required> <br>
+        <input type="submit">
+    </form>
+    <br>
+    <hr>
+    <hr>
+    <br>
+    {% for client in clients %}
+    {{ client }} <br>
+    {{ client.dni }} <br>
+    {{ client.address }} <br>
+    {{ client.email }} <br>
+    {{ client.phone }} <br>
+    <button>
+        <a href="{% url 'delete_client' client.id %}">
+            Eliminar
+        </a>
+    </button>
+    <br>
+    <form action="{% url 'update_client' client.id %}" method="POST">
+        {% csrf_token %}
+        <p>Actualizar Cliente</p>
+        <label for="name">Nombre:</label>
+        <input type="text" name="name" required value="{{ client}}"> <br>
+        <label for="">Dni:</label>
+        <input type="text" name="dni" required value="{{ client.dni }}"> <br>
+        <label for="">Domicilio:</label>
+        <input type="text" name="address" required value="{{ client.address }}"> <br>
+        <input type="text" name="email" required value="{{ client.email }}"> <br>
+        <input type="text" name="phone" required value="{{ client.phone }}"> <br>
+        <input type="submit" value="Actualizar">
+
+    </form>
+    <hr>
+    {% endfor %}
+</body>
+
+</html>
