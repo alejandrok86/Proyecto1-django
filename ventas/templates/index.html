@@ -21,6 +21,16 @@
         <input type="text" name="email" required> <br>
         <label for="">celular:</label>
         <input type="text" name="phone" required> <br>
+        <label for="bank_id">Banco:</label> <br>
+        <select name="bank_id" required>
+            <option value="">----Seleccione una opcion----</option>
+            {% for bank in banks %}
+            <option value="{{ bank.id }}">{{bank}}</option>
+            {% endfor %}
+
+
+        </select><br>
+        <br>
         <input type="submit">
     </form>
     <br>
@@ -33,6 +43,7 @@
     {{ client.address }} <br>
     {{ client.email }} <br>
     {{ client.phone }} <br>
+    {{ client.bank_id.id }} <br>
     <button>
         <a href="{% url 'delete_client' client.id %}">
             Eliminar
@@ -50,6 +61,15 @@
         <input type="text" name="address" required value="{{ client.address }}"> <br>
         <input type="text" name="email" required value="{{ client.email }}"> <br>
         <input type="text" name="phone" required value="{{ client.phone }}"> <br>
+        <label for="bank_id">Banco:</label> <br>
+        <select name="bank_id" required>
+            <option value="{{ client.bank_id }}">{{ client.bank_id }}</option>
+            {% for bank in banks %}
+            <option value="{{ bank.id }}">
+                {{ bank }}
+            </option>
+            {% endfor %}
+        </select>><br>
         <input type="submit" value="Actualizar">
 
     </form>

@@ -1,13 +1,14 @@
 from django.shortcuts import render
-from .models import Client
+from .models import Client, Bank
 # from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 
 def list_clients(request):
     clients = Client.objects.all()
+    banks = Bank.objects.all()
     # return render('nombre archivo html', )
-    return render(request, 'index.html', {'clients': clients})
+    return render(request, 'index.html', {'clients': clients, 'banks': banks})
 
 # create
 
@@ -17,14 +18,24 @@ def create_client(request):
     name = request.POST["name"]
     dni = request.POST["dni"]
     address = request.POST["address"]
+    bank_id = request.POST["bank_id"]
+    bank = Bank.objects.get(pk=bank_id)
     email = request.POST["email"]
     phone = request.POST["phone"]
     # instanciar el objeto
-    client = Client(name=name, dni=dni, address=address,
+    client = Client(name=name, dni=dni, bank_id=bank, address=address,
                     email=email, phone=phone)
-    # el metodo guardar para  en la base
+    # el metodo guardar  en la base
     client.save()
     return redirect('/clientes/')
+
+# esta funcion busca el objeto
+
+
+def detail(request, id):
+    client = Client.objects.get(pk=id)
+    bank = Bank.objects.get(id=client.bank_id)
+
 
 # delete
 
@@ -45,12 +56,16 @@ def update_client(request, id):
     address = request.POST["address"]
     email = request.POST["email"]
     phone = request.POST["phone"]
+    bank_id = request.POST["bank_id"]
+    ####recupero el objeto buscando por id
+    bank = Bank.objects.get(pk=id)
     # actualizando los campos (seteo)
     client.name = name
     client.dni = dni
     client.address = address
     client.email = email
     client.phone = phone
+    client.bank_id = bank
     # guardo los nuevos datos
     client.save()
     # rediciono a clientes
