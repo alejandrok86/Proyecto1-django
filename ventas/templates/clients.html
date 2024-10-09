@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
-</head>
-
-<body>
+{% extends 'base.html'%}
+{% block title %}
+Clientes
+{% endblock %}
+{% block content %}
     <form action="{% url 'create_client' %}" method="POST">
         {% csrf_token %}
         <p>Crear Cliente</p>
@@ -24,7 +19,7 @@
         <label for="bank_id">Banco:</label> <br>
         <select name="bank_id" required>
             <option value="">----Seleccione una opcion----</option>
-            {% for bank in banks %}
+            {% for bank in object_list %}
             <option value="{{ bank.id }}">{{bank}}</option>
             {% endfor %}
 
@@ -37,7 +32,7 @@
     <hr>
     <hr>
     <br>
-    {% for client in clients %}
+    {% for client in object_list %}
     {{ client }} <br>
     {{ client.dni }} <br>
     {{ client.address }} <br>
@@ -64,7 +59,7 @@
         <label for="bank_id">Banco:</label> <br>
         <select name="bank_id" required>
             <option value="{{ client.bank_id }}">{{ client.bank_id }}</option>
-            {% for bank in banks %}
+            {% for bank in object_list %}
             <option value="{{ bank.id }}">
                 {{ bank }}
             </option>
@@ -75,6 +70,4 @@
     </form>
     <hr>
     {% endfor %}
-</body>
-
-</html>
+    {% endblock %}

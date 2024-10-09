@@ -1,0 +1,17 @@
+{% extends 'base.html'%}
+{% block title %}
+Clientes
+{% endblock %}
+{% block content %}
+    </form>
+    <br>
+    <hr>
+    <hr>
+    <br>
+    {% for bank in object_list %}
+    {{ bank }} <br>
+    </form>
+    <hr>
+    {% endfor %}
+    {% endblock %}
+

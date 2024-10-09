@@ -1,18 +1,24 @@
 from django.shortcuts import render
-from .models import Client, Bank
+from ..models import Client, Bank
 # from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic import ListView, CreateView,UpdateView, DeleteView
 
 
+#Basadas en funciones
+"""
 def list_clients(request):
     clients = Client.objects.all()
     banks = Bank.objects.all()
     # return render('nombre archivo html', )
-    return render(request, 'index.html', {'clients': clients, 'banks': banks})
+    return render(request, 'clients.html', {'clients': clients, 'banks': banks})
+"""
+# create con vistas basadas en clases
+class List_Clients(ListView):
+    model = Client
+    template_name = 'clients.html'
 
-# create
-
-
+"""
 def create_client(request):
    # client = request.
     name = request.POST["name"]
@@ -28,26 +34,38 @@ def create_client(request):
     # el metodo guardar  en la base
     client.save()
     return redirect('/clientes/')
-
+"""
 # esta funcion busca el objeto
 
+## Basa en clases
+class Create_Client(CreateView):
+    model = Client
+    # que campos recibe del metodo POST
+    fields = ['name', 'dni','address', 'bank_id', 'email', 'phone']
+    #equivalente al return
+    success_url = '/clientes/'
 
+"""
 def detail(request, id):
     client = Client.objects.get(pk=id)
     bank = Bank.objects.get(id=client.bank_id)
-
+"""
 
 # delete
 
-
+"""
 def delete_client(request, id):
     client = Client.objects.get(pk=id)
     client.delete()
     return redirect('/clientes/')
-
+"""
+## Basa en clases
+class Delete_Client(DeleteView):
+    model = Client
+    success_url = '/clientes/'  
 # update
 
-
+"""
 def update_client(request, id):
     # buscar el objeto
     client = Client.objects.get(pk=id)
@@ -70,3 +88,11 @@ def update_client(request, id):
     client.save()
     # rediciono a clientes
     return redirect('/clientes/')
+"""
+## Basa en clases
+class Update_Client(UpdateView):
+    model = Client
+    # que campos recibe del metodo POST
+    fields = ['name', 'dni','address', 'bank_id','email', 'phone']
+    #equivalente al return
+    success_url = '/clientes/'
